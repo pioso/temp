@@ -1,0 +1,157 @@
+@use '../../styles/base.scss';
+
+:host {
+  position: relative;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .nav-list {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+
+    &:after {
+      content: '';
+      position: absolute;
+      background-color: var(--ds-mega-menu-active-color);
+      width: 60px;
+      height: 2px;
+      left: 0;
+      bottom: 16px;
+      transform: translate3d(calc(var(--tab-position) - 50%), 0, 0);
+      opacity: 0;
+      transition:
+        transform 0.3s,
+        opacity 0.3s 0.3s;
+    }
+
+    &.tab-visible:after {
+      opacity: 1;
+    }
+  }
+
+  .nav-item {
+    position: relative;
+    display: flex;
+
+    &.filled {
+      &.small {
+        margin: 0 8px;
+      }
+
+      &.medium {
+        margin: 0 16px;
+      }
+
+      .nav-item-label {
+        padding: 4px;
+      }
+    }
+  }
+
+  .nav-item-label {
+    display: flex;
+    align-items: center;
+
+    font-size: 16px;
+    border: 0;
+    background-color: transparent;
+    margin: 0;
+  }
+
+  .drawer-indicator {
+    margin-left: 4px;
+    transition: transform 0.3s;
+    transform-origin: center;
+
+    &.upside-down {
+      transform: rotate(180deg);
+    }
+  }
+
+  .submenu {
+    position: absolute;
+    left: 0;
+    top: 40px;
+    opacity: 0;
+    z-index: 101;
+
+    pointer-events: none;
+
+    &.visible {
+      transition: opacity 0.3s 0.3s;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    &.hidden {
+      transition: opacity 0.3s;
+      visibility: hidden;
+    }
+  }
+
+  .drawer {
+    position: absolute;
+    left: var(--offset-left);
+    width: var(--width);
+    background-color: var(--ds-mega-menu-background-color);
+    z-index: 100;
+
+    height: var(--height);
+    transition: height 0.3s;
+    will-change: height;
+
+    box-shadow: var(--ds-mega-menu-shadow);
+
+    &.visible {
+      pointer-events: auto;
+      & > * {
+        pointer-events: auto;
+        opacity: 1;
+      }
+    }
+
+    &.hidden {
+      pointer-events: none;
+      transition: height 0.3s 0.3s;
+
+      & > * {
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+    }
+
+    .columns-list {
+      opacity: 0;
+      pointer-events: none;
+
+      &.visible {
+        transition: opacity 0.3s 0.3s;
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+      }
+
+      &.hidden {
+        transition:
+          opacity 0.3s,
+          padding 0.3s;
+        visibility: hidden;
+        position: absolute;
+      }
+    }
+  }
+}
